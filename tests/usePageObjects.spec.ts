@@ -33,3 +33,9 @@ test('parametrized methods @smoke @regression', async ({page}) => {
     await pm.onDatepickerPage().selectCommonDatePickerDateFromToday(2)
     await pm.onDatepickerPage().selectDatepickerWithRangeFromToday(2, 5)
 })
+
+test.only('testing with agros ci', async({page}) => {
+    const pm = new PageManager(page)
+    await pm.navigateTo().formLayoutsPage()
+    await pm.navigateTo().datePickerPage()
+})
