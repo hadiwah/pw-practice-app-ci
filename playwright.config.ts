@@ -1,5 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
-import {createArgosReporterOptions} from '@argos-ci/playwright/reporter';
+import { createArgosReporterOptions } from "@argos-ci/playwright/reporter";
 import type { TestOptions } from './test-options';
 
 
