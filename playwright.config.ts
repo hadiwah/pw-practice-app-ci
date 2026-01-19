@@ -1,6 +1,6 @@
 import { defineConfig, devices } from '@playwright/test';
+import {createArgosReporterOptions} from '@argos-ci/playwright/reporter';
 import type { TestOptions } from './test-options';
-import { createArgosReporterOptions } from "@argos-ci/playwright/reporter";
 
 
 /**
@@ -32,6 +32,9 @@ export default defineConfig<TestOptions>({
       createArgosReporterOptions({
         // Upload to Argos on CI only.
         uploadToArgos: !!process.env.CI,
+
+        // Set your Argos token (required if not using GitHub Actions).
+        token: "<argos_0a14de0d3c5a702026cdf70dad33bc7d9c>",
 
       }),
     ],
