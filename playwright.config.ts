@@ -1,5 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 import type { TestOptions } from './test-options';
+import { createArgosReporterOptions } from "@argos-ci/playwright/reporter";
+
 
 /**
  * Read environment variables from file.
@@ -22,6 +24,18 @@ export default defineConfig<TestOptions>({
   
   retries: 1,
   reporter: [
+    // Use "dot" reporter on CI, "list" otherwise (Playwright default).
+    process.env.CI ? ["dot"] : ["list"],
+    // Add Argos reporter.
+    [
+      "@argos-ci/playwright/reporter",
+      createArgosReporterOptions({
+        // Upload to Argos on CI only.
+        uploadToArgos: !!process.env.CI,
+
+      }),
+    ],
+  
     ['json', {outputFile: 'test-results/jsonReport.json'}],
     ['junit', {outputFile: 'test-results/junitReport.xml'}],
     // ['allure-playwright'],
@@ -37,6 +51,8 @@ export default defineConfig<TestOptions>({
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
+    // Capture screenshot after each test failure.
+    screenshot: "only-on-failure",
     actionTimeout: 20000,
     navigationTimeout: 25000,
     video: {
